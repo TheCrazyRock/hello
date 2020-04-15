@@ -1,0 +1,19 @@
+server:
+  port: 9090
+  
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      default-filters:
+      - AddRequestHeader=x-er-gateway-secret, 123
+      routes:
+      - id: test
+        uri: http://localhost:8080
+        predicates:
+        - Path=/bpm-server/api/v1/**
+        filters:
+        - RewritePath=/v1(?<segment>/?.*), $\{segment}
+        
+        
